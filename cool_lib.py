@@ -2,6 +2,7 @@
 # Glenn G. Chappell
 # 2026-10-02
 """Cool library full of cool stuff.
+Illustrates use of doctest
 For CS 471 Fall 2026
 """
 
