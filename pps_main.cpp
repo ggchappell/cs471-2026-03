@@ -1,6 +1,8 @@
 // pps_main.cpp
 // Glenn G. Chappell
 // 2026-10-06
+//
+// For CS 471 Fall 2026
 // Simple main program for prettyPrintSquare
 // Requires pps.hpp
 
