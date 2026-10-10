@@ -1,7 +1,7 @@
 // pps.hpp
 // Glenn G. Chappell
 // Started: 2026-10-06
-// Updated: 2026-10-07
+// Updated: 2026-10-09
 //
 // For CS 471 Fall 2026
 // Header for prettyPrintSquare
@@ -10,68 +10,100 @@
 #ifndef FILE_PPS_HPP_INCLUDED
 #define FILE_PPS_HPP_INCLUDED
 
-#include <iostream>  // For std::cout, std::ostream
-#include <string>    // For std::string, std::to_string
-#include <cstdlib>   // For std::size_t
+#include <iostream>
+// For std::cout, std::ostream
+#include <string>
+// For std::string, std::to_string
 
 
-// square
-// Return square of parameter.
-inline
-int square(int n)
-{
-    return n*n;
-}
+// class Compute
+// Abstract base class for compute operations: member func doint takes
+// int, does computation, returns resulting int.
+class Compute {
+public:
+
+    virtual ~Compute() {}
+
+    virtual int doint(int n) const = 0;
+};
 
 
-// asterBox
-// Return given string surrounded by a box of asterisks, with a newline
-// at the end of each line.
-//
-// For example, given "abc", returns a string that prints as:
-// *******
-// * abc *
-// *******
-inline
-std::string asterBox(const std::string & ss)
-{
-    // Set up
-    auto len = ss.size();
-    std::string result;
+// class Square
+// A compute class (derived from Compute): member func doint squares an
+// int.
+class Square : public Compute {
+public:
 
-    // Line 1
-    for (std::size_t i = 0; i < len+4; ++i)
-        result.push_back('*');
-    result.push_back('\n');
+    virtual ~Square() {}
 
-    // Line 2
-    result += "* " + ss + " *\n";
+    virtual int doint(int n) const
+    {
+        return n*n;
+    }
+};
 
-    // Line 3
-    for (std::size_t i = 0; i < len+4; ++i)
-        result.push_back('*');
-    result.push_back('\n');
 
-    // Done; return our string
-    return result;
-}
+// class Format
+// Abstract base class for format operations: member func dostr takes
+// string, does formatting, returns resulting string.
+class Format {
+public:
+
+    virtual ~Format() {}
+
+    virtual std::string dostr(const std::string & s) const = 0;
+};
+
+
+// class AsterBox
+// A format class (derived from Format): member func dostr puts a box of
+// asterisks around a string, with a newline at the end of each line.
+class AsterBox : public Format {
+public:
+
+    virtual ~AsterBox() {}
+
+    virtual std::string dostr(const std::string & ss) const
+    {
+        // Set up
+        auto len = ss.size();
+        std::string result;
+
+        // Line 1
+        result = std::string(len+4, '*') + "\n";
+
+        // Line 2
+        result += "* " + ss + " *\n";
+
+        // Line 3
+        result += std::string(len+4, '*') + "\n";
+
+        // Done; return our string
+        return result;
+    }
+};
 
 
 // prettyPrintSquare
-// Takes an int and prints its square surrounded by box of asterisks,
-// with a newline at the end of each line, to stanard output.
+// Takes an int, does a compute operation, then a format operation on
+// the string form of the result, then prints to the given stream.
+// Default behavior is to square, surround with a box of asterisks, and
+// print to std output.
 //
-// For example, given 5, prints, with a newline after each line:
+// So, given 5, default behavior is to print the following to standard
+// output, with a newline at the end of each line:
 // ******
 // * 25 *
 // ******
 inline
 void prettyPrintSquare(int n,
-                       std::ostream & str=std::cout)
+                       std::ostream & str = std::cout,
+                       const Compute & c = Square(),
+                       const Format & f = AsterBox())
 {
-    auto nn = square(n);
+    auto nn = c.doint(n);
     auto ss = std::to_string(nn);
-    auto result = asterBox(ss);
+    auto result = f.dostr(ss);
     str << result;
 }
 
