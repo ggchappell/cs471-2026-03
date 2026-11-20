@@ -23,7 +23,7 @@ using std::bad_cast;
 // get_thousands_separator
 // Given locale object. Returns a pair<char, bool>. The char is the
 // thousands separator. The bool is true if the thousands separator was
-// obtained from the locale, false if it is a default value (',').
+// obtained from the locale, false if it is a default value (' ').
 pair<char, bool> get_thousands_separator(const locale & loc)
 {
     char thou_sep;     // Thousands separator
@@ -39,7 +39,7 @@ pair<char, bool> get_thousands_separator(const locale & loc)
     }
     catch(bad_cast & e)
     {
-        thou_sep = ',';  // Our default thousands separator
+        thou_sep = ' ';  // Our default thousands separator
         from_locale = false;
     }
 
