@@ -90,6 +90,7 @@ int main()
 
     // Print intro message
     cout << "Locale Demo\n";
+    cout << "Number: " << num_to_print << "\n";
     cout << "\n";
 
     // Get thousands separator
@@ -109,9 +110,8 @@ int main()
     cout << "\n";
 
     // Print our number
-    cout << "Number: " << num_to_print << "\n";
-    cout << "With separator: " << int_with_separator(num_to_print, sep)
-         << "\n";
+    cout << "Number with thousands separator: "
+         << int_with_separator(num_to_print, sep) << "\n";
     cout << "\n";
 
     // Wait for user
